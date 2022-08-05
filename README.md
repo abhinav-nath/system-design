@@ -1,6 +1,8 @@
 # System Design
 
 - [Communication](#communication)
+  - [HTTP](#hypertext-transfer-protocol-http)
+  - [HTTPS](#hypertext-transfer-protocol-secure-https)
 
 ## Communication
 
@@ -34,7 +36,7 @@ A basic HTTP request consists of a verb (method) and a resource (endpoint). Belo
 - [Difference between PUT and PATCH](https://laracasts.com/discuss/channels/general-discussion/whats-the-differences-between-put-and-patch?page=1)
 
 
-## Hypertext Transfer Protocol Secure (HTTPS)
+### Hypertext Transfer Protocol Secure (HTTPS)
 
 <p align="center">
   <img src="images/tls-handshake-process.png">
