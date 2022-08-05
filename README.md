@@ -36,4 +36,10 @@ A basic HTTP request consists of a verb (method) and a resource (endpoint). Belo
 
 ## Hypertext Transfer Protocol Secure (HTTPS)
 
+<p align="center">
+  <img src="images/tls-handshake-process.png">
+  <br/>
+  <i><a href=https://support.f5.com/csp/article/K15292>Source: TLS handshake overview</a></i>
+</p>
+
 [^1]: idempotent - can be called many times without different outcomes
