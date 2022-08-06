@@ -16,7 +16,8 @@
 ### Hypertext transfer protocol (HTTP)
 
 HTTP is an application layer protocol built on top of **TCP** that uses a *client-server* communication model.
-HTTP clients and servers communicate through request and response messages.
+
+HTTP follows a *request‑response* paradigm in which the client makes a request and the server issues a response that includes not only the requested content, but also relevant status information about the request.
 
 A basic HTTP request consists of a verb (method) and a resource (endpoint). Below are the common HTTP verbs:
 
