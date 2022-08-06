@@ -48,6 +48,13 @@ A basic HTTP request consists of a verb (method) and a resource (endpoint). Belo
 
 ## Load Balancing
 
+
+<p align="center">
+  <img src="images/load-balancing.png">
+  <br/>
+  <i><a href=https://www.nginx.com/resources/glossary/load-balancing/>Source: NGINX - What Is Load Balancing?</a></i>
+</p>
+
 **Load balancing** refers to efficiently distributing incoming network traffic across a group of backend servers, also known as a *server farm* or *server pool*.
 
 A **load balancer** acts as the "traffic cop" sitting in front of your servers and routing client requests across all servers capable of fulfilling those requests in a manner that maximizes speed and capacity utilization and ensures that no one server is overworked, which could degrade performance.
