@@ -1,6 +1,8 @@
 # System Design
 
 - [Communication](#communication)
+  - [UDP](#user-datagram-protocol-udp)
+  - [TCP](#transmission-control-protocol-tcp)
   - [HTTP](#hypertext-transfer-protocol-http)
   - [HTTPS](#hypertext-transfer-protocol-secure-https)
 - [Load Balancing](#load-balancing)
@@ -12,6 +14,18 @@
   <br/>
   <i><a href=http://www.escotal.com/osilayer.html>Source: OSI 7 layer model</a></i>
 </p>
+
+### User datagram protocol (UDP)
+
+User Datagram Protocol (UDP) is a communications protocol that is primarily used to establish low-latency and loss-tolerating connections between applications on the internet.
+
+UDP is connectionless.
+
+UDP is an alternative to Transmission Control Protocol (TCP). Both UDP and TCP run on top of IP and are sometimes referred to as **UDP/IP** or **TCP/IP**.
+
+### Transmission control protocol (TCP)
+
+TODO
 
 ### Hypertext transfer protocol (HTTP)
 
