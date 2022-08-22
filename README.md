@@ -6,6 +6,7 @@
   - [HTTP](#hypertext-transfer-protocol-http)
   - [HTTPS](#hypertext-transfer-protocol-secure-https)
 - [Load Balancing](#load-balancing)
+- [Reverse Proxy](#reverse-proxy)
 
 ## Communication
 
@@ -99,6 +100,11 @@ Different load balancing algorithms provide different benefits; the choice of lo
 - **IP Hash** – The IP address of the client is used to determine which server receives the request.
 
 - **Random with Two Choices** – Picks two servers at random and sends the request to the one that is selected by then applying the Least Connections algorithm.
+
+
+## Reverse Proxy
+
+TODO
 
 
 [^1]: idempotent - can be called many times without different outcomes
