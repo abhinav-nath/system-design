@@ -63,7 +63,6 @@ A basic HTTP request consists of a verb (method) and a resource (endpoint). Belo
 
 ## Load Balancing
 
-
 <p align="center">
   <img src="images/load-balancing.png">
   <br/>
@@ -100,6 +99,16 @@ Different load balancing algorithms provide different benefits; the choice of lo
 - **IP Hash** – The IP address of the client is used to determine which server receives the request.
 
 - **Random with Two Choices** – Picks two servers at random and sends the request to the one that is selected by then applying the Least Connections algorithm.
+
+### Layer 4 Load Balancing
+
+Layer 4 load balancing uses information defined at the *transport* layer (Layer 4) to decide how to distribute client requests across a group of servers.
+
+Generally, this involves the source, destination IP addresses, and ports recorded in the packet header, without considering the contents of the packet.
+
+Layer 4 load balancers forward network packets to and from the upstream server, performing [Network Address Translation (NAT)](https://www.nginx.com/resources/glossary/layer-4-load-balancing/).
+
+### Layer 7 Load Balancing
 
 
 ## Reverse Proxy
