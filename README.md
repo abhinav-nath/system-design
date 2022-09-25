@@ -104,12 +104,30 @@ Different load balancing algorithms provide different benefits; the choice of lo
 
 Layer 4 load balancing uses information defined at the *transport* layer (Layer 4) to decide how to distribute client requests across a group of servers.
 
-Generally, this involves the source, destination IP addresses, and ports recorded in the packet header, without considering the contents of the packet.
+Generally, this involves the source, destination IP addresses, and ports recorded in the packet header, **without considering the contents of the packet**.
 
 Layer 4 load balancers forward network packets to and from the upstream server, performing [Network Address Translation (NAT)](https://www.nginx.com/resources/glossary/layer-4-load-balancing/).
 
 ### Layer 7 Load Balancing
 
+[Layer 7 load balancing](https://www.nginx.com/resources/glossary/layer-7-load-balancing/) operates at the high‑level *application* layer, which deals with the actual content of each message.
+
+It can make a load‑balancing decision based on the contents of the header or message (the URL or cookie, for example).
+
+Layer 7 load balancers terminate network traffic, read the message, make a load-balancing decision, then open a connection to the selected server.
+For example, a layer 7 load balancer can direct video traffic to servers that host videos while directing more sensitive user billing traffic to security-hardened servers.
+
+Layer 7 load balancing is more CPU‑intensive than packet‑based Layer 4 load balancing, but rarely causes degraded performance on a modern server. Layer 7 load balancing enables the load balancer to make smarter load‑balancing decisions, and to apply optimizations and changes to the content (such as compression and encryption). It uses buffering to offload slow connections from the upstream servers, which improves performance.
+
+A device that performs Layer 7 load balancing is often referred to as a [reverse‑proxy server](#reverse-proxy-server).
+
+## Reverse Proxy Server
+
+A **proxy server** is a *go‑between* or intermediary server that forwards requests for content from multiple clients to different servers across the Internet.
+
+A **reverse proxy server** is a type of proxy server that typically sits behind the firewall in a private network and directs client requests to the appropriate backend server.
+
+A reverse proxy provides an additional level of abstraction and control to ensure the smooth flow of network traffic between clients and servers.
 
 ## Reverse Proxy
 
