@@ -129,9 +129,36 @@ A **reverse proxy server** is a type of proxy server that typically sits behind 
 
 A reverse proxy provides an additional level of abstraction and control to ensure the smooth flow of network traffic between clients and servers.
 
+Common uses for a reverse proxy server include:
+
+- **Load balancing**
+- **Web acceleration** – Reverse proxies can compress inbound and outbound data, as well as cache commonly requested content, both of which speed up the flow of traffic between clients and servers. They can also perform additional tasks such as SSL encryption to take load off of your web servers, thereby boosting their performance.
+- **Security and anonymity** – By intercepting requests headed for your backend servers, a reverse proxy server protects their identities and acts as an additional defense against security attacks. It also ensures that multiple servers can be accessed from a single record locator or URL regardless of the structure of your local area network.
+
 ## Reverse Proxy
 
-TODO
+You can think of the reverse proxy as a website's "public face". Its address is the one advertised for the website, and it sits at the edge of the site's network to accept requests from web browsers and mobile apps for the content hosted at the website.
+
+benefits:
+
+- **Increased security** - Hide information about backend servers, blacklist IPs, limit number of connections per client
+- **Increased scalability and flexibility** - Because clients see only the reverse proxy’s IP address, you are free to change the configuration of your backend infrastructure.
+- **Compression** - Compress server responses before returning them to the client
+- **SSL termination** - Decrypt incoming requests and encrypt server responses so backend servers do not have to perform these potentially expensive operations
+  - Removes the need to install X.509 certificates on each server
+- **Caching** - Before returning the backend server’s response to the client, the reverse proxy stores a copy of it locally.
+
+### Load Balancer vs Reverse Proxy
+
+- Deploying a load balancer is useful when you have multiple servers. Often, load balancers route traffic to a set of servers serving the same function.
+- Reverse proxies can be useful even with just one web server or application server, opening up the benefits described in the previous section.
+- Solutions such as NGINX and HAProxy can support both layer 7 reverse proxying and load balancing.
+
+### Disadvantages of reverse proxy
+
+- Introducing a reverse proxy results in increased complexity.
+- A single reverse proxy is a single point of failure, configuring multiple reverse proxies further increases complexity.
+
 
 
 [^1]: idempotent - can be called many times without different outcomes
