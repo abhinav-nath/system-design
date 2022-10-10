@@ -6,7 +6,15 @@
   - [HTTP](#hypertext-transfer-protocol-http)
   - [HTTPS](#hypertext-transfer-protocol-secure-https)
 - [Load Balancing](#load-balancing)
+  - [Load Balancing Algorithms](#load-balancing-algorithms)
+  - [Layer 4 Load Balancing](#layer-4-load-balancing)
+  - [Layer 7 Load Balancing](#layer-7-load-balancing)
+  - [Reverse Proxy Server](#reverse-proxy-server)
 - [Reverse Proxy](#reverse-proxy)
+  - [Load Balancer vs Reverse Proxy](#load-balancer-vs-reverse-proxy)
+  - [Disadvantages of reverse proxy](#disadvantages-of-reverse-proxy)
+- [Caching](#caching)
+  - [Caching Strategies](#caching-strategies)
 
 ## Communication
 
@@ -64,9 +72,9 @@ A basic HTTP request consists of a verb (method) and a resource (endpoint). Belo
 ## Load Balancing
 
 <p align="center">
-  <img src="images/load-balancing.png">
+  <img src="images/load-balancer.png" width="500">
   <br/>
-  <i><a href=https://www.nginx.com/resources/glossary/load-balancing/>Source: NGINX - What Is Load Balancing?</a></i>
+  <i><a href=http://horicky.blogspot.com/2010/10/scalable-system-design-patterns.html>Source: Scalable System Design Patterns</a></i>
 </p>
 
 **Load balancing** refers to efficiently distributing incoming network traffic across a group of backend servers, also known as a *server farm* or *server pool*.
@@ -159,6 +167,34 @@ benefits:
 - Introducing a reverse proxy results in increased complexity.
 - A single reverse proxy is a single point of failure, configuring multiple reverse proxies further increases complexity.
 
+## Caching
+
+<p align="center">
+  <img src="images/result-cache.png" width="500">
+  <br/>
+  <i><a href=http://horicky.blogspot.com/2010/10/scalable-system-design-patterns.html>Source: Scalable System Design Patterns</a></i>
+</p>
+
+**Pros:**
+- Improve read performance (_latency_)
+- Reduce the load (_throughput_)
+
+**Cons:**
+- Increases complexity and might introduce inconsistency
+- Consumes resources
+
+### Caching Strategies
+
+- Cache Aside
+- Read Through
+- Write Through
+- Write Behind
+
+1. **Cache Aside**
+
+   <p align="left">
+     <img src="images/cache-aside.png">
+   </p>
 
 
 [^1]: idempotent - can be called many times without different outcomes
