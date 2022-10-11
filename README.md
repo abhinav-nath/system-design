@@ -196,6 +196,18 @@ benefits:
      <img src="images/caching-strategies_cache-aside.png" width="555">
    </p>
 
+   - With this strategy, the application has access to both the cache and the storage.
+   - Application checks the key in the cache first and if is not present then it from the storage and then updates the cache.
+   - This is a common pattern if you are using an external cache like Redis.
+
+   **Pros:**
+   - Cache only the data that is needed (if the key is not accessed then we will not cache it)
+
+   **Cons:**
+   - Cache misses are expensive (retrieve the data from the storage and update the cache)
+   - Data staleness
+   - Implementation complexity
+
 2. **Read Through**
 
    <p align="left">
