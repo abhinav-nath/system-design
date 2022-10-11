@@ -170,7 +170,7 @@ benefits:
 ## Caching
 
 <p align="center">
-  <img src="images/result-cache.png" width="500">
+  <img src="images/caching.png" width="500">
   <br/>
   <i><a href=http://horicky.blogspot.com/2010/10/scalable-system-design-patterns.html>Source: Scalable System Design Patterns</a></i>
 </p>
@@ -193,8 +193,25 @@ benefits:
 1. **Cache Aside**
 
    <p align="left">
-     <img src="images/cache-aside.png">
+     <img src="images/caching-strategies_cache-aside.png" width="555">
    </p>
 
+2. **Read Through**
+
+   <p align="left">
+     <img src="images/caching-strategies_read-through.png" width="555">
+   </p>
+
+3. **Write Through**
+
+   <p align="left">
+     <img src="images/caching-strategies_write-through.png" width="555">
+   </p>
+
+4. **Write Behind**
+
+   <p align="left">
+     <img src="images/caching-strategies_write-behind.png" width="555">
+   </p>
 
 [^1]: idempotent - can be called many times without different outcomes
