@@ -214,16 +214,40 @@ benefits:
      <img src="images/caching-strategies_read-through.png" width="555">
    </p>
 
+   **Pros:**
+    - Cache only the data that is needed (if the key is not accessed then we will not cache it)
+    - Transparent
+
+   **Cons:**
+    - Cache misses are expensive (retrieve the data from the storage and update the cache)
+    - Data staleness
+    - Reliability
+
 3. **Write Through**
 
    <p align="left">
      <img src="images/caching-strategies_write-through.png" width="555">
    </p>
 
+   **Pros:**
+    - Up-to-date data
+
+   **Cons:**
+    - Writes are expensive
+    - Redundant data
+
 4. **Write Behind**
 
    <p align="left">
      <img src="images/caching-strategies_write-behind.png" width="555">
    </p>
+
+   **Pros:**
+    - No write penalty
+    - Reduced load on storage
+
+   **Cons:**
+    - Reliability
+    - Lack of consistency
 
 [^1]: idempotent - can be called many times without different outcomes
