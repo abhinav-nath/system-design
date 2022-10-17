@@ -214,9 +214,13 @@ benefits:
      <img src="images/caching-strategies_read-through.png" width="555">
    </p>
 
+   - In this strategy, the application does not have direct access to the storage, it always interacts with the cache API.
+   - In case of cache miss, the cache API will fetch the results from the storage, update them in cache and the return them to the application.
+   - This pattern is quite common in ORM frameworks and the data is usually stored in the memory.
+
    **Pros:**
     - Cache only the data that is needed (if the key is not accessed then we will not cache it)
-    - Transparent
+    - Transparent (as a developer you are not even aware that there is a cache, you work with a single API)
 
    **Cons:**
     - Cache misses are expensive (retrieve the data from the storage and update the cache)
