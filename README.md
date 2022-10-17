@@ -190,7 +190,7 @@ benefits:
 - Write Through
 - Write Behind
 
-1. **Cache Aside**
+1. **Cache Aside** (Lazy Loading)
 
    <p align="left">
      <img src="images/caching-strategies_cache-aside.png" width="555">
@@ -237,16 +237,19 @@ benefits:
      <img src="images/caching-strategies_write-through.png" width="555">
    </p>
 
-   - It is similar to the Read Through strategy.
+   - A write-through cache reverses the order of how the cache is populated.
+   - Instead of lazy-loading the data in the cache after a cache miss, the cache is proactively updated immediately after the storage update.
    - The application interacts with the cache API that for each update also stores data in cache.
    - The benefit of this approach is the data in the cache is never stale.
 
    **Pros:**
-    - Up-to-date data
+    - Because the cache is up-to-date with the storage, there is a much greater likelihood that the data will be found in the cache.
+      This, in turn, results in better overall application performance and user experience.
+    - The performance of your database is optimal because fewer database reads are performed.
 
    **Cons:**
-    - Writes are expensive
-    - Redundant data
+    - Writes are expensive - introduces extra write **latency** because data is written to the cache first and then to the storage (two write operations).
+    - Infrequently-requested data is also written to the cache, resulting in a larger and more expensive cache.
 
 4. **Write Behind**
 
