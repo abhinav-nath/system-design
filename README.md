@@ -233,6 +233,10 @@ benefits:
      <img src="images/caching-strategies_write-through.png" width="555">
    </p>
 
+   - It is similar to the Read Through strategy.
+   - The application interacts with the cache API that for each update also stores data in cache.
+   - The benefit of this approach is the data in the cache is never stale.
+
    **Pros:**
     - Up-to-date data
 
