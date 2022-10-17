@@ -197,16 +197,20 @@ benefits:
    </p>
 
    - With this strategy, the application has access to both the cache and the storage.
-   - Application checks the key in the cache first and if is not present then it from the storage and then updates the cache.
+   - When your application needs to read data from the database, it checks the cache first to determine whether the data is available.
+   - If the data is available (_a cache hit_), the cached data is returned, and the response is issued to the caller.
+   - If the data isn't available (_a cache miss_), the database is queried for the data.
+     The cache is then populated with the data that is retrieved from the database, and the data is returned to the caller.
    - This is a common pattern if you are using an external cache like Redis.
 
    **Pros:**
-   - Cache only the data that is needed (if the key is not accessed then we will not cache it)
+   - The cache contains only data that the application actually requests, which helps keep the cache size cost-effective.
+   - Implementing this approach is straightforward and produces immediate performance gains.
 
    **Cons:**
-   - Cache misses are expensive (retrieve the data from the storage and update the cache)
-   - Data staleness
-   - Implementation complexity
+   - Cache misses are expensive (retrieve the data from the storage and update the cache).
+   - Data is loaded into the cache only after a cache miss.
+   - Some overhead is added to the initial response time because additional round trips to the cache and database are needed.
 
 2. **Read Through**
 
