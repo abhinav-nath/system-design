@@ -250,12 +250,18 @@ benefits:
      <img src="images/caching-strategies_write-behind.png" width="555">
    </p>
 
+   - Very similar to Write Through.
+   - The only difference is the data is not written to the storage immediately.
+   - Instead, the cache will wait for more events/timeout and only then flush everything to storage.
+   - So, in this case the cache acts like a buffer.
+
    **Pros:**
-    - No write penalty
+    - No write penalty (writes seem very fast because we don't write to the slow(er) storage everytime)
     - Reduced load on storage
 
    **Cons:**
-    - Reliability
-    - Lack of consistency
+    - Reliability (if the cache crashes then we will lose some updates)
+    - Lack of consistency (if we don't flush the data from cache to storage often enough then it may create inconsistencies in the data)
+
 
 [^1]: idempotent - can be called many times without different outcomes
