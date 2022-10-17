@@ -19,6 +19,9 @@
     - [Read Through](#read-through)
     - [Write Through](#write-through)
     - [Write Behind](#write-behind)
+  - [Eviction Policies](#eviction-policies)
+    - [LRU](#lru)
+    - [LFU](#lfu)
 
 ## Communication
 
@@ -274,5 +277,15 @@ benefits:
 - Reliability (if the cache crashes then we will lose some updates)
 - Lack of consistency (if we don't flush the data from cache to storage often enough then it may create inconsistencies in the data)
 
+
+### Eviction Policies
+
+- LRU - Least Recently Used
+- LFU - Least Frequently Used
+- ...
+
+#### LRU
+
+#### LFU
 
 [^1]: idempotent - can be called many times without different outcomes
