@@ -15,6 +15,10 @@
   - [Disadvantages of reverse proxy](#disadvantages-of-reverse-proxy)
 - [Caching](#caching)
   - [Caching Strategies](#caching-strategies)
+    - [Cache Aside](#cache-aside-lazy-loading)
+    - [Read Through](#read-through)
+    - [Write Through](#write-through)
+    - [Write Behind](#write-behind)
 
 ## Communication
 
@@ -190,85 +194,85 @@ benefits:
 - Write Through
 - Write Behind
 
-1. **Cache Aside** (Lazy Loading)
+#### Cache Aside (Lazy Loading)
 
-   <p align="left">
-     <img src="images/caching-strategies_cache-aside.png" width="555">
-   </p>
+<p align="left">
+  <img src="images/caching-strategies_cache-aside.png" width="555">
+</p>
 
-   - With this strategy, the application has access to both the cache and the storage.
-   - When your application needs to read data from the database, it checks the cache first to determine whether the data is available.
-   - If the data is available (_a cache hit_), the cached data is returned, and the response is issued to the caller.
-   - If the data isn't available (_a cache miss_), the database is queried for the data.
-     The cache is then populated with the data that is retrieved from the database, and the data is returned to the caller.
-   - This is a common pattern if you are using an external cache like Redis.
+- With this strategy, the application has access to both the cache and the storage.
+- When your application needs to read data from the database, it checks the cache first to determine whether the data is available.
+- If the data is available (_a cache hit_), the cached data is returned, and the response is issued to the caller.
+- If the data isn't available (_a cache miss_), the database is queried for the data.
+  The cache is then populated with the data that is retrieved from the database, and the data is returned to the caller.
+- This is a common pattern if you are using an external cache like Redis.
 
-   **Pros:**
-   - The cache contains only data that the application actually requests, which helps keep the cache size cost-effective.
-   - Implementing this approach is straightforward and produces immediate performance gains.
+**Pros:**
+- The cache contains only data that the application actually requests, which helps keep the cache size cost-effective.
+- Implementing this approach is straightforward and produces immediate performance gains.
 
-   **Cons:**
-   - Cache misses are expensive (retrieve the data from the storage and update the cache).
-   - Data is loaded into the cache only after a cache miss.
-   - Some overhead is added to the initial response time because additional round trips to the cache and database are needed.
+**Cons:**
+- Cache misses are expensive (retrieve the data from the storage and update the cache).
+- Data is loaded into the cache only after a cache miss.
+- Some overhead is added to the initial response time because additional round trips to the cache and database are needed.
 
-2. **Read Through**
+#### Read Through
 
-   <p align="left">
-     <img src="images/caching-strategies_read-through.png" width="555">
-   </p>
+<p align="left">
+  <img src="images/caching-strategies_read-through.png" width="555">
+</p>
 
-   - In this strategy, the application does not have direct access to the storage, it always interacts with the cache API.
-   - In case of cache miss, the cache API will fetch the results from the storage, update them in cache and the return them to the application.
-   - This pattern is quite common in ORM frameworks and the data is usually stored in the memory.
+- In this strategy, the application does not have direct access to the storage, it always interacts with the cache API.
+- In case of cache miss, the cache API will fetch the results from the storage, update them in cache and the return them to the application.
+- This pattern is quite common in ORM frameworks and the data is usually stored in the memory.
 
-   **Pros:**
-    - Cache only the data that is needed (if the key is not accessed then we will not cache it)
-    - Transparent (as a developer you are not even aware that there is a cache, you work with a single API)
+**Pros:**
+- Cache only the data that is needed (if the key is not accessed then we will not cache it)
+- Transparent (as a developer you are not even aware that there is a cache, you work with a single API)
 
-   **Cons:**
-    - Cache misses are expensive (retrieve the data from the storage and update the cache)
-    - Data staleness
-    - Reliability
+**Cons:**
+- Cache misses are expensive (retrieve the data from the storage and update the cache)
+- Data staleness
+- Reliability
 
-3. **Write Through**
+#### Write Through
 
-   <p align="left">
-     <img src="images/caching-strategies_write-through.png" width="555">
-   </p>
+<p align="left">
+  <img src="images/caching-strategies_write-through.png" width="555">
+</p>
 
-   - A write-through cache reverses the order of how the cache is populated.
-   - Instead of lazy-loading the data in the cache after a cache miss, the cache is proactively updated immediately after the storage update.
-   - The application interacts with the cache API that for each update also stores data in cache.
-   - The benefit of this approach is the data in the cache is never stale.
+- A write-through cache reverses the order of how the cache is populated.
+- Instead of lazy-loading the data in the cache after a cache miss, the cache is proactively updated immediately after the storage update.
+- The application interacts with the cache API that for each update also stores data in cache.
+- The benefit of this approach is the data in the cache is never stale.
 
-   **Pros:**
-    - Because the cache is up-to-date with the storage, there is a much greater likelihood that the data will be found in the cache.
-      This, in turn, results in better overall application performance and user experience.
-    - The performance of your database is optimal because fewer database reads are performed.
+**Pros:**
+- Because the cache is up-to-date with the storage, there is a much greater likelihood that the data will be found in the cache.
+  This, in turn, results in better overall application performance and user experience.
+- The performance of your database is optimal because fewer database reads are performed.
 
-   **Cons:**
-    - Writes are expensive - introduces extra write **latency** because data is written to the cache first and then to the storage (two write operations).
-    - Infrequently-requested data is also written to the cache, resulting in a larger and more expensive cache.
+**Cons:**
+- Writes are expensive - introduces extra write **latency** because data is written to the cache first and then to the storage (two write operations).
+- Infrequently-requested data is also written to the cache, resulting in a larger and more expensive cache.
 
-4. **Write Behind**
+#### Write Behind
 
-   <p align="left">
-     <img src="images/caching-strategies_write-behind.png" width="555">
-   </p>
+<p align="left">
+  <img src="images/caching-strategies_write-behind.png" width="555">
+</p>
 
-   - Very similar to Write Through.
-   - The only difference is the data is not written to the storage immediately.
-   - Instead, the cache will wait for more events/timeout and only then flush everything to storage.
-   - So, in this case the cache acts like a buffer.
+- Very similar to Write Through.
+- The only difference is the data is not written to the storage immediately.
+- Instead, the cache will wait for more events/timeout and only then flush everything to storage.
+- So, in this case the cache acts like a buffer.
 
-   **Pros:**
-    - No write penalty (writes seem very fast because we don't write to the slow(er) storage everytime)
-    - Reduced load on storage
+**Pros:**
+- No write penalty (writes seem very fast because we don't write to the slow(er) storage everytime)
+- Reduced load on storage
 
-   **Cons:**
-    - Reliability (if the cache crashes then we will lose some updates)
-    - Lack of consistency (if we don't flush the data from cache to storage often enough then it may create inconsistencies in the data)
+**Cons:**
+- Reliability (if the cache crashes then we will lose some updates)
+- Lack of consistency (if we don't flush the data from cache to storage often enough then it may create inconsistencies in the data)
 
 
 [^1]: idempotent - can be called many times without different outcomes
