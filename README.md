@@ -21,6 +21,7 @@
     - [Write Behind](#write-behind)
   - [Eviction Policies](#eviction-policies)
     - [LRU](#lru)
+    - [MFU](#mfu)
     - [LFU](#lfu)
 
 ## Communication
@@ -51,13 +52,13 @@ HTTP follows a *request‑response* paradigm in which the client makes a request
 
 A basic HTTP request consists of a verb (method) and a resource (endpoint). Below are the common HTTP verbs:
 
-| Verb | Description | Idempotent[1] | Safe | Cacheable |
-|---|---|---|---|---|
-| GET | Reads a resource | Yes | Yes | Yes |
-| POST | Creates a resource or triggers a process that handles data | No | No | Yes if response contains freshness info |
-| PUT | Creates or replaces a resource | Yes | No | No |
-| PATCH | Partially updates a resource | No | No | Yes if response contains freshness info |
-| DELETE | Deletes a resource | Yes | No | No |
+| Verb | Description | Idempotent[^1] | Safe | Cacheable |
+|---|---|----------------|---|---|
+| GET | Reads a resource | Yes            | Yes | Yes |
+| POST | Creates a resource or triggers a process that handles data | No             | No | Yes if response contains freshness info |
+| PUT | Creates or replaces a resource | Yes            | No | No |
+| PATCH | Partially updates a resource | No             | No | Yes if response contains freshness info |
+| DELETE | Deletes a resource | Yes            | No | No |
 
 > HTTP is an Application Layer protocol relying on lower-level protocols such as **TCP** and **UDP**.
 
@@ -157,11 +158,11 @@ You can think of the reverse proxy as a website's "public face". Its address is 
 benefits:
 
 - **Increased security** - Hide information about backend servers, blacklist IPs, limit number of connections per client
-- **Increased scalability and flexibility** - Because clients see only the reverse proxy’s IP address, you are free to change the configuration of your backend infrastructure.
+- **Increased scalability and flexibility** - Because clients see only the reverse proxy's IP address, you are free to change the configuration of your backend infrastructure.
 - **Compression** - Compress server responses before returning them to the client
 - **SSL termination** - Decrypt incoming requests and encrypt server responses so backend servers do not have to perform these potentially expensive operations
   - Removes the need to install X.509 certificates on each server
-- **Caching** - Before returning the backend server’s response to the client, the reverse proxy stores a copy of it locally.
+- **Caching** - Before returning the backend server's response to the client, the reverse proxy stores a copy of it locally.
 
 ### Load Balancer vs Reverse Proxy
 
@@ -278,14 +279,103 @@ benefits:
 - Lack of consistency (if we don't flush the data from cache to storage often enough then it may create inconsistencies in the data)
 
 
-### Eviction Policies
+### Eviction Policies[^2]
 
 - LRU - Least Recently Used
+- MRU - Most Recently Used
 - LFU - Least Frequently Used
 - ...
 
+To help visualize these policies, let's imagine we run a movie site, and we want to cache movie information. We have a cache that can hold four movies.
+
+```
+- 12:30 PM: Trash Pandas: The Musical 
+
+- 12:45 PM: Rats of New York 
+
+- 1:30 PM: Honey I Bought A Moose 
+
+- 1:43 PM: Rats of New York 
+
+- 1:50 PM: Trash Pandas: The Musical 
+
+- 1:59 PM: 12 Angry Birds
+```
+
+Let's assume the cache was empty when we began. It would look like this:
+
+- EMPTY
+- EMPTY
+- EMPTY
+- EMPTY
+
+First, at 12:30, we get a request for "Trash Pandas: The Musical".
+The cache is empty, so we have a cache miss.
+We retrieve "Trash Pandas: The Musical" from non-cache memory and send it to the user.
+"Trash Pandas: The Musical" also takes first place in the cache.
+
+- (12:30) Trash Pandas: The Musical
+- EMPTY
+- EMPTY
+- EMPTY
+
+Then at 12:45, a request for "Rats of New York" comes in.
+Our cache currently contains "Trash Pandas: The Musical", so we have another cache miss.
+The system retrieves the movie information from non-cache memory and sends it to the user.
+"Rats of New York" takes the second cache spot.
+
+- (12:30) Trash Pandas: The Musical
+- (12:45) Rats of New York
+- EMPTY
+- EMPTY
+
+At 1:30, "Honey I Bought A Moose" gets requested, causing another cache miss.
+The system retrieves the information from non-cache memory and stores it in the third cache spot.
+
+- (12:30) Trash Pandas: The Musical
+- (12:45) Rats of New York
+- (1:30) Honey I Bought A Moose
+- EMPTY
+
+At 1:43, we get a request for "Rats of New York".
+We are ready this time. Our cache already contains that movie's information.
+Our cache sends information about "Rats of New York" back to the user much faster than a non-cache memory retrieval.
+Nothing in our cache needs to change, except the time when "Rats of New York" was last accessed (now 1:43).
+
+- (12:30) Trash Pandas: The Musical
+- (1:43) Rats of New York
+- (1:30) Honey I Bought A Moose
+- EMPTY
+
+At 1:50, we receive another request for "Trash Pandas: The Musical".
+This movie is already stored in our cache and is quickly retrieved and sent to the user.
+The cache updates the last access time for "Trash Pandas: The Musical".
+
+- (1:50) Trash Pandas: The Musical
+- (1:43) Rats of New York
+- (1:30) Honey I Bought A Moose
+- EMPTY
+
+At 1:59, "12 Angry Birds" has a request. Yet another cache miss.
+The system retrieves the information from non-cache memory and stores it in the final cache spot.
+
+- (1:50) Trash Pandas: The Musical
+- (1:43) Rats of New York
+- (1:30) Honey I Bought A Moose
+- (1:59) 12 Angry Birds
+
+Now our cache is full. If a new movie request comes in, which isn't already in the cache, something will have to leave to replace it.
+Choosing which movie gets removed is the responsibility of an eviction policy. Let's add one more request:
+
+```
+* 2:30 PM: Moles: Dig It
+```
+
 #### LRU
+
+#### MFU
 
 #### LFU
 
 [^1]: idempotent - can be called many times without different outcomes
+[^2]: source - https://www.codecademy.com/article/cache-eviction-policies
