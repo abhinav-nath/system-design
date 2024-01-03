@@ -24,6 +24,12 @@
     - [MFU](#mfu)
     - [LFU](#lfu)
 
+---
+<p align="center">
+  ⭐ Star this repository — it helps!
+</p>
+---
+
 ## Communication
 
 <p align="center">
